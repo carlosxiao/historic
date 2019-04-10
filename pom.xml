@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
+        <module>historic-service</module>
         <module>historic-admin</module>
         <module>historic-web</module>
-        <module>historic-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

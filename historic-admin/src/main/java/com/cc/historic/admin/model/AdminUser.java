@@ -3,13 +3,14 @@ package com.cc.historic.admin.model;
 import lombok.Data;
 
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 系统用户
  */
 @Data
-public class AdminUser {
+public class AdminUser implements Serializable {
     @Id
     private Integer id;
 
