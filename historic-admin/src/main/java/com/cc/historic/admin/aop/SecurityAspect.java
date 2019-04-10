@@ -45,9 +45,7 @@ public class SecurityAspect {
         if(uri.lastIndexOf("/") == uri.length()-1){
             uri = uri.substring(0,uri.length()-1);
         }
-        System.out.println("进入拦截器:"+uri);
         if(LOGINURL.equals(uri) || LOGINOUTURL.equals(uri)){
-            log.info("不拦截");
             //不拦截的
             return pjp.proceed();
         }
