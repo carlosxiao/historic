@@ -44,9 +44,9 @@
 							<div class="center">
 								<h1>
 									<i class="ace-icon fa fa-leaf green"></i>
-									<span class="grey" id="id-text2">EasyAdmin后台管理</span>
+									<span class="grey" id="id-text2">业务后台管理</span>
 								</h1>
-								<h4 class="blue" id="id-company-text">&copy;By Raye</h4>
+								<h4 class="blue" id="id-company-text">&copy;CC</h4>
 							</div>
 
 							<div class="space-6"></div>
@@ -98,17 +98,6 @@
 
 											
 										</div><!-- /.widget-main -->
-
-										<div class="toolbar clearfix">
-											<div>
-												<a href="#" data-target="#forgot-box" class="forgot-password-link">
-													<i class="ace-icon fa fa-arrow-left"></i>
-													忘记密码？
-												</a>
-											</div>
-
-											
-										</div>
 									</div><!-- /.widget-body -->
 								</div><!-- /.login-box -->
 
