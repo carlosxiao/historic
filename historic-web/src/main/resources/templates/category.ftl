@@ -61,7 +61,7 @@
                     <div class="col-lg-3 col-md-3 col-sm-6">
                         <div class="f_p_item">
                             <div class="f_p_img">
-                                <img class="img-fluid" src="img/product/feature-product/f-p-1.jpg" alt="">
+                                <img class="img-fluid" href="/goods/1" src="img/product/feature-product/f-p-1.jpg" alt="">
                                 <div class="p_icon">
                                     <a href="#">
                                         <i class="lnr lnr-heart"></i>
@@ -71,7 +71,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="/goods/1">
                                 <h4>Long Sleeve TShirt</h4>
                             </a>
                             <h5>$150.00</h5>
