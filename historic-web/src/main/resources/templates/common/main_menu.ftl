@@ -8,8 +8,8 @@
             <div class="float-right">
                 <ul class="right_side">
                     <li>
-                        <a href="login.html">
-                            登录/注册
+                        <a href="/sign_in">
+                            登录
                         </a>
                     </li>
                     <li>
@@ -40,7 +40,7 @@
                         <div class="col-lg-7 pr-0">
                             <ul class="nav navbar-nav center_nav pull-right">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="index.html">Home</a>
+                                    <a class="nav-link" href="/index">Home</a>
                                 </li>
                                 <li class="nav-item submenu dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop</a>
