@@ -14,4 +14,9 @@ public class CategoryController {
     public String index() {
         return "category";
     }
+
+    @GetMapping("checkout")
+    public String checkout() {
+        return "checkout";
+    }
 }
