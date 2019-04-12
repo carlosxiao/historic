@@ -507,12 +507,12 @@ a {
 .banner_area {
   position: relative;
   z-index: 1;
-  min-height: 395px; }
+  min-height: 300px; }
   .banner_area .banner_inner {
     position: relative;
     overflow: hidden;
     width: 100%;
-    min-height: 395px;
+    min-height: 300px;
     background: url(../img/breadcrumb/checkout-bg.jpg) no-repeat center bottom;
     background-size: contain;
     z-index: 1; }
@@ -3494,8 +3494,8 @@ h6 {
 /* Cart Area css
 ============================================================================================ */
 .cart_area {
-  padding-top: 100px;
-  padding-bottom: 100px; }
+  padding-top: 20px;
+  padding-bottom: 50px; }
 
 .cart_inner .table thead tr th {
   border-top: 0px;

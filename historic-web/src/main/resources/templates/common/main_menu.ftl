@@ -45,41 +45,11 @@
                                 <li class="nav-item submenu">
                                     <a href="/category" class="nav-link" >Category</a>
                                 </li>
-                                <li class="nav-item submenu dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="blog.html">Blog</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="single-blog.html">Blog Details</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item submenu dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="login.html">Login</a>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="tracking.html">Tracking</a>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="elements.html">Elements</a>
-                                        </li>
-                                    </ul>
-                                </li>
                             </ul>
                         </div>
 
                         <div class="col-lg-5">
                             <ul class="nav navbar-nav navbar-right right_nav pull-right">
-                                <hr>
-                                <li class="nav-item">
-                                    <a href="#" class="icons">
-                                        <i class="fa fa-search" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-
                                 <hr>
 
                                 <li class="nav-item">
@@ -99,7 +69,7 @@
                                 <hr>
 
                                 <li class="nav-item">
-                                    <a href="#" class="icons">
+                                    <a href="/cart" class="icons">
                                         <i class="lnr lnr lnr-cart"></i>
                                     </a>
                                 </li>
