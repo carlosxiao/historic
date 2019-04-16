@@ -40,6 +40,103 @@ CREATE TABLE `admin_user` (
 INSERT INTO `admin_user` VALUES ('-1', '0', 'root', 'E10ADC3949BA59ABBE56E057F20F883E', 'carlosxiao@dr.com', '0', '2019-04-10 10:53:29', '1', '2017-04-07 22:23:15', '-1', '2019-04-10 02:53:22');
 
 -- ----------------------------
+-- Table structure for menu
+-- ----------------------------
+DROP TABLE IF EXISTS `menu`;
+CREATE TABLE `menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `name` varchar(32) NOT NULL COMMENT '菜单名称',
+  `url` varchar(500) DEFAULT NULL COMMENT '网址',
+  `icon` varchar(20) DEFAULT NULL COMMENT '显示的图标',
+  `menutype` enum('0','1','2') NOT NULL DEFAULT '0' COMMENT '类型，0 菜单，1 连接网址,2 隐藏连接',
+  `display` int(11) NOT NULL DEFAULT '1' COMMENT '显示排序',
+  `parentid` int(11) NOT NULL DEFAULT '0' COMMENT '父级的id，引用本表id字段',
+  `creator` int(11) NOT NULL DEFAULT '0' COMMENT '创建者id，0为超级管理员',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateuser` int(11) DEFAULT NULL COMMENT '更新者id',
+  `updatetime` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `flag` enum('0','1') NOT NULL DEFAULT '1' COMMENT '是否启用，0 禁用，1启用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of menu
+-- ----------------------------
+INSERT INTO `menu` VALUES ('1', '系统首页', '/admin/index', null, '2', '1', '0', '0', '2017-03-31 20:16:57', '0', null, '1');
+INSERT INTO `menu` VALUES ('2', '修改密码', '/admin/user/updatepass', 'fa-wrench', '2', '0', '0', '0', '2017-04-05 21:33:39', '0', null, '1');
+INSERT INTO `menu` VALUES ('3', '系统配置', '12', 'fa-wrench', '0', '1', '0', '0', '2017-03-31 20:16:43', '0', '2017-04-05 20:30:53', '1');
+INSERT INTO `menu` VALUES ('4', '菜单配置', '/admin/menu', 'fa-list', '0', '1', '3', '0', '2017-03-31 20:16:45', '0', '2017-04-05 20:31:10', '1');
+INSERT INTO `menu` VALUES ('5', '角色管理', '/admin/role', null, '0', '2', '3', '0', '2017-03-31 20:16:48', '0', null, '1');
+INSERT INTO `menu` VALUES ('6', '角色权限', '/admin/role/menu', null, '2', '0', '3', '0', '2017-03-31 20:16:52', '0', null, '1');
+INSERT INTO `menu` VALUES ('7', '用户管理', '/admin/user', null, '1', '2', '3', '0', '2017-03-31 20:16:54', '0', null, '1');
+INSERT INTO `menu` VALUES ('8', '新增菜单', '/admin/menu/edit', null, '2', '0', '4', '0', '2017-03-31 20:17:01', '0', null, '1');
+INSERT INTO `menu` VALUES ('9', '删除菜单', '/admin/menu/delete', null, '2', '0', '4', '0', '2017-03-31 20:17:04', '0', null, '1');
+INSERT INTO `menu` VALUES ('10', '编辑角色', '/admin/role/edit', null, '2', '0', '5', '0', '2017-03-31 20:17:06', '0', null, '1');
+INSERT INTO `menu` VALUES ('11', '删除角色', '/admin/role/delete', null, '2', '0', '5', '0', '2017-03-31 20:17:07', '0', null, '1');
+INSERT INTO `menu` VALUES ('12', '角色资源管理', '/admin/role/menu', null, '2', '0', '5', '0', '2017-03-31 20:17:08', '0', null, '1');
+INSERT INTO `menu` VALUES ('13', '编辑用户', '/admin/user/edit', null, '2', '0', '7', '0', '2017-03-31 20:17:09', '0', null, '1');
+INSERT INTO `menu` VALUES ('14', '删除用户', '/admin/user/delete', null, '2', '0', '7', '0', '2017-03-31 20:17:10', '0', null, '1');
+INSERT INTO `menu` VALUES ('15', '用户角色管理', '/admin/user/role', null, '2', '0', '7', '0', '2017-03-31 20:17:12', '0', null, '1');
+INSERT INTO `menu` VALUES ('16', '菜单配置', '', null, '2', '0', '7', '20', '2017-04-02 11:38:28', '0', null, '1');
+INSERT INTO `menu` VALUES ('17', '商品管理', '', 'fa-shopping-bag', '0', '2', '0', '-1', '2019-04-10 11:02:17', null, null, '1');
+INSERT INTO `menu` VALUES ('18', '订单管理', '', 'fa-tasks', '0', '3', '0', '-1', '2019-04-10 11:02:46', null, null, '1');
+
+-- ----------------------------
+-- Table structure for role
+-- ----------------------------
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色表主键',
+  `name` varchar(20) NOT NULL COMMENT '角色名称',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `creator` int(11) DEFAULT '0' COMMENT '用户id，0为角色，有关联时则为用户的单独权限',
+  `description` varchar(200) DEFAULT NULL COMMENT '角色描述',
+  `updateuser` int(11) DEFAULT NULL COMMENT '更新者id',
+  `updatetime` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES ('1', '超级用户', '2018-03-05 23:00:43', '-1', '拥有系统所有权限,不能删除', '-1', '2018-03-05 09:00:44');
+
+-- ----------------------------
+-- Table structure for role_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `role_menu`;
+CREATE TABLE `role_menu` (
+  `roleid` int(11) NOT NULL COMMENT '角色id',
+  `menuid` int(11) NOT NULL COMMENT '菜单id',
+  `flag` int(1) NOT NULL DEFAULT '1' COMMENT '1为有权限，0为没有权限（防止以后会出现角色有权限但是个人没有权限的情况）',
+  `creator` int(11) NOT NULL COMMENT '创建人，0为初始化',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`menuid`,`roleid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of role_menu
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE `user_role` (
+  `userid` int(11) NOT NULL COMMENT '用户id',
+  `roleid` int(11) NOT NULL COMMENT '角色id',
+  `creator` int(11) NOT NULL COMMENT '创建人，0为初始化',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`userid`,`roleid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of user_role
+-- ----------------------------
+INSERT INTO `user_role` VALUES ('-1', '1', '-1', '2018-03-05 23:37:04');
+
+
+-- ----------------------------
 -- Table structure for area
 -- ----------------------------
 DROP TABLE IF EXISTS `area`;
@@ -430,24 +527,6 @@ INSERT INTO `area` VALUES ('369', '上海市', '0', '0', 'PROVINCE', '1970-01-01
 INSERT INTO `area` VALUES ('370', '天津市', '0', '0', 'PROVINCE', '1970-01-01 00:00:00', '1970-01-01 00:00:00');
 
 -- ----------------------------
--- Table structure for cart
--- ----------------------------
-DROP TABLE IF EXISTS `cart`;
-CREATE TABLE `cart` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `member_id` bigint(20) NOT NULL,
-  `product_id` bigint(20) NOT NULL,
-  `count` int(4) NOT NULL,
-  `create_time` datetime NOT NULL COMMENT '创建时间 ',
-  `update_time` datetime NOT NULL COMMENT '更新时间 ',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='购物车';
-
--- ----------------------------
--- Records of cart
--- ----------------------------
-
--- ----------------------------
 -- Table structure for category
 -- ----------------------------
 DROP TABLE IF EXISTS `category`;
@@ -488,19 +567,17 @@ CREATE TABLE `goods` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '商品id，主键，自增长',
   `name` varchar(100) NOT NULL COMMENT '商品名称，不能为空',
   `short_name` varchar(100) DEFAULT NULL COMMENT '商品短名称',
+  `category_id` int(11) not null COMMENT '商品分类标识',
   `length` double DEFAULT NULL COMMENT '商品的长度',
   `width` double DEFAULT NULL COMMENT '商品的宽度',
   `height` double DEFAULT NULL COMMENT '商品的高度',
   `weight` double DEFAULT NULL COMMENT '商品的重量',
-  `image_id` int(11) NOT NULL COMMENT '商品主图的id',
-  `detail_show_image` char(1) NOT NULL DEFAULT 'Y' COMMENT '商品的详情页，是否显示主图，默认为显示',
   `cost_price` double DEFAULT NULL COMMENT '商品成本价',
   `selling_price` double NOT NULL COMMENT '商品售价,不能为空',
   `original_price` double DEFAULT NULL COMMENT '商品原价',
   `detail` text COMMENT '商品的详情信息',
   `basic_stock` int(11) DEFAULT '0' COMMENT '商品的库存，默认值为0',
   `upperShelf` char(1) DEFAULT 'N' COMMENT '商品是否上架，默认为否',
-  `spec` char(1) DEFAULT 'N' COMMENT '是否开启多规格，默认为否',
   `examine` char(1) DEFAULT 'N' COMMENT '是否审核，默认为否',
   `deleted` char(1) DEFAULT 'N' COMMENT '是否为逻辑删除状态，默认为否',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '商品创建时间，不能为空，默认为0',
@@ -509,89 +586,17 @@ CREATE TABLE `goods` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品基本信息表';
 
 -- ----------------------------
--- Records of goods
--- ----------------------------
-
--- ----------------------------
--- Table structure for goods_category_mapping
--- ----------------------------
-DROP TABLE IF EXISTS `goods_category_mapping`;
-CREATE TABLE `goods_category_mapping` (
-  `goods_id` int(11) NOT NULL COMMENT '商品id',
-  `category_id` int(11) NOT NULL COMMENT '类目id',
-  PRIMARY KEY (`goods_id`,`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品与类目的映射关系表';
-
--- ----------------------------
--- Records of goods_category_mapping
--- ----------------------------
-
--- ----------------------------
 -- Table structure for goods_image
 -- ----------------------------
 DROP TABLE IF EXISTS `goods_image`;
 CREATE TABLE `goods_image` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增长主键id',
   `goods_id` int(11) DEFAULT NULL COMMENT '商品的id',
-  `image_id` int(11) DEFAULT NULL COMMENT '图片的id',
+  `image_url` varchar(256) not null comment '图片地址',
   `type` int(11) DEFAULT NULL COMMENT '图片类型，主图/副图',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品图片映射表';
-
--- ----------------------------
--- Records of goods_image
--- ----------------------------
-
--- ----------------------------
--- Table structure for goods_spec
--- ----------------------------
-DROP TABLE IF EXISTS `goods_spec`;
-CREATE TABLE `goods_spec` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增长id',
-  `goods_id` int(11) NOT NULL COMMENT '商品id',
-  `spec_name` varchar(50) DEFAULT NULL COMMENT '规格名称',
-  `sort` int(11) DEFAULT NULL COMMENT '规格的序号',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品规格信息表';
-
--- ----------------------------
--- Records of goods_spec
--- ----------------------------
-
--- ----------------------------
--- Table structure for goods_spec_item
--- ----------------------------
-DROP TABLE IF EXISTS `goods_spec_item`;
-CREATE TABLE `goods_spec_item` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增长id',
-  `spec_id` int(11) NOT NULL COMMENT '规格id',
-  `item_name` varchar(50) DEFAULT NULL COMMENT '规格项的名称',
-  `sort` int(11) DEFAULT NULL COMMENT '规格项的序号',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品规格项信息表';
-
--- ----------------------------
--- Records of goods_spec_item
--- ----------------------------
-
--- ----------------------------
--- Table structure for goods_spec_item_detail
--- ----------------------------
-DROP TABLE IF EXISTS `goods_spec_item_detail`;
-CREATE TABLE `goods_spec_item_detail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `goods_id` int(11) NOT NULL COMMENT '商品id',
-  `item_group` varchar(5) NOT NULL COMMENT '商品规格项的组合，一个商品最多支持添加四个规格，加一个字母前缀，最多五个字符',
-  `cost_price` double DEFAULT NULL COMMENT '规格组合的成本价',
-  `selling_price` double NOT NULL COMMENT '规格组合的出售价',
-  `stock` int(11) NOT NULL DEFAULT '0' COMMENT '规格组合的库存',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品规格项组合信息表';
-
--- ----------------------------
--- Records of goods_spec_item_detail
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for member
@@ -614,98 +619,78 @@ CREATE TABLE `member` (
 -- Records of member
 -- ----------------------------
 
--- ----------------------------
--- Table structure for menu
--- ----------------------------
-DROP TABLE IF EXISTS `menu`;
-CREATE TABLE `menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `name` varchar(32) NOT NULL COMMENT '菜单名称',
-  `url` varchar(500) DEFAULT NULL COMMENT '网址',
-  `icon` varchar(20) DEFAULT NULL COMMENT '显示的图标',
-  `menutype` enum('0','1','2') NOT NULL DEFAULT '0' COMMENT '类型，0 菜单，1 连接网址,2 隐藏连接',
-  `display` int(11) NOT NULL DEFAULT '1' COMMENT '显示排序',
-  `parentid` int(11) NOT NULL DEFAULT '0' COMMENT '父级的id，引用本表id字段',
-  `creator` int(11) NOT NULL DEFAULT '0' COMMENT '创建者id，0为超级管理员',
-  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updateuser` int(11) DEFAULT NULL COMMENT '更新者id',
-  `updatetime` timestamp NULL DEFAULT NULL COMMENT '更新时间',
-  `flag` enum('0','1') NOT NULL DEFAULT '1' COMMENT '是否启用，0 禁用，1启用',
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) DEFAULT NULL COMMENT '商品id',
+  `quantity` int(11) DEFAULT NULL COMMENT '数量',
+  `checked` int(11) DEFAULT NULL COMMENT '是否选择,1=已勾选,0=未勾选',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `user_id_index` (`user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单id',
+  `order_no` bigint(20) DEFAULT NULL COMMENT '订单号',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `shipping_id` int(11) DEFAULT NULL,
+  `payment` decimal(20,2) DEFAULT NULL COMMENT '实际付款金额,单位是元,保留两位小数',
+  `payment_type` int(4) DEFAULT NULL COMMENT '支付类型,1-在线支付',
+  `postage` int(10) DEFAULT NULL COMMENT '运费,单位是元',
+  `status` int(10) DEFAULT NULL COMMENT '订单状态:0-已取消-10-未付款，20-已付款，40-已发货，50-交易成功，60-交易关闭',
+  `payment_time` datetime DEFAULT NULL COMMENT '支付时间',
+  `send_time` datetime DEFAULT NULL COMMENT '发货时间',
+  `end_time` datetime DEFAULT NULL COMMENT '交易完成时间',
+  `close_time` datetime DEFAULT NULL COMMENT '交易关闭时间',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `order_no_index` (`order_no`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `order_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单子表id',
+  `user_id` int(11) DEFAULT NULL,
+  `order_no` bigint(20) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL COMMENT '商品id',
+  `product_name` varchar(100) DEFAULT NULL COMMENT '商品名称',
+  `product_image` varchar(500) DEFAULT NULL COMMENT '商品图片地址',
+  `current_unit_price` decimal(20,2) DEFAULT NULL COMMENT '生成订单时的商品单价，单位是元,保留两位小数',
+  `quantity` int(10) DEFAULT NULL COMMENT '商品数量',
+  `total_price` decimal(20,2) DEFAULT NULL COMMENT '商品总价,单位是元,保留两位小数',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_no_index` (`order_no`) USING BTREE,
+  KEY `order_no_user_id_index` (`user_id`,`order_no`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `pay_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `order_no` bigint(20) DEFAULT NULL COMMENT '订单号',
+  `pay_platform` int(10) DEFAULT NULL COMMENT '支付平台:1-支付宝,2-微信',
+  `platform_number` varchar(200) DEFAULT NULL COMMENT '支付宝支付流水号',
+  `platform_status` varchar(20) DEFAULT NULL COMMENT '支付宝支付状态',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of menu
--- ----------------------------
-INSERT INTO `menu` VALUES ('1', '系统首页', '/admin/index', null, '2', '1', '0', '0', '2017-03-31 20:16:57', '0', null, '1');
-INSERT INTO `menu` VALUES ('2', '修改密码', '/admin/user/updatepass', 'fa-wrench', '2', '0', '0', '0', '2017-04-05 21:33:39', '0', null, '1');
-INSERT INTO `menu` VALUES ('3', '系统配置', '12', 'fa-wrench', '0', '1', '0', '0', '2017-03-31 20:16:43', '0', '2017-04-05 20:30:53', '1');
-INSERT INTO `menu` VALUES ('4', '菜单配置', '/admin/menu', 'fa-list', '0', '1', '3', '0', '2017-03-31 20:16:45', '0', '2017-04-05 20:31:10', '1');
-INSERT INTO `menu` VALUES ('5', '角色管理', '/admin/role', null, '0', '2', '3', '0', '2017-03-31 20:16:48', '0', null, '1');
-INSERT INTO `menu` VALUES ('6', '角色权限', '/admin/role/menu', null, '2', '0', '3', '0', '2017-03-31 20:16:52', '0', null, '1');
-INSERT INTO `menu` VALUES ('7', '用户管理', '/admin/user', null, '1', '2', '3', '0', '2017-03-31 20:16:54', '0', null, '1');
-INSERT INTO `menu` VALUES ('8', '新增菜单', '/admin/menu/edit', null, '2', '0', '4', '0', '2017-03-31 20:17:01', '0', null, '1');
-INSERT INTO `menu` VALUES ('9', '删除菜单', '/admin/menu/delete', null, '2', '0', '4', '0', '2017-03-31 20:17:04', '0', null, '1');
-INSERT INTO `menu` VALUES ('10', '编辑角色', '/admin/role/edit', null, '2', '0', '5', '0', '2017-03-31 20:17:06', '0', null, '1');
-INSERT INTO `menu` VALUES ('11', '删除角色', '/admin/role/delete', null, '2', '0', '5', '0', '2017-03-31 20:17:07', '0', null, '1');
-INSERT INTO `menu` VALUES ('12', '角色资源管理', '/admin/role/menu', null, '2', '0', '5', '0', '2017-03-31 20:17:08', '0', null, '1');
-INSERT INTO `menu` VALUES ('13', '编辑用户', '/admin/user/edit', null, '2', '0', '7', '0', '2017-03-31 20:17:09', '0', null, '1');
-INSERT INTO `menu` VALUES ('14', '删除用户', '/admin/user/delete', null, '2', '0', '7', '0', '2017-03-31 20:17:10', '0', null, '1');
-INSERT INTO `menu` VALUES ('15', '用户角色管理', '/admin/user/role', null, '2', '0', '7', '0', '2017-03-31 20:17:12', '0', null, '1');
-INSERT INTO `menu` VALUES ('16', '菜单配置', '', null, '2', '0', '7', '20', '2017-04-02 11:38:28', '0', null, '1');
-INSERT INTO `menu` VALUES ('17', '商品管理', '', 'fa-shopping-bag', '0', '2', '0', '-1', '2019-04-10 11:02:17', null, null, '1');
-INSERT INTO `menu` VALUES ('18', '订单管理', '', 'fa-tasks', '0', '3', '0', '-1', '2019-04-10 11:02:46', null, null, '1');
-
--- ----------------------------
--- Table structure for role
--- ----------------------------
-DROP TABLE IF EXISTS `role`;
-CREATE TABLE `role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色表主键',
-  `name` varchar(20) NOT NULL COMMENT '角色名称',
-  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `creator` int(11) DEFAULT '0' COMMENT '用户id，0为角色，有关联时则为用户的单独权限',
-  `description` varchar(200) DEFAULT NULL COMMENT '角色描述',
-  `updateuser` int(11) DEFAULT NULL COMMENT '更新者id',
-  `updatetime` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+CREATE TABLE `shipping` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `receiver_name` varchar(20) DEFAULT NULL COMMENT '收货姓名',
+  `receiver_phone` varchar(20) DEFAULT NULL COMMENT '收货固定电话',
+  `receiver_mobile` varchar(20) DEFAULT NULL COMMENT '收货移动电话',
+  `receiver_province` varchar(20) DEFAULT NULL COMMENT '省份',
+  `receiver_city` varchar(20) DEFAULT NULL COMMENT '城市',
+  `receiver_district` varchar(20) DEFAULT NULL COMMENT '区/县',
+  `receiver_address` varchar(200) DEFAULT NULL COMMENT '详细地址',
+  `receiver_zip` varchar(6) DEFAULT NULL COMMENT '邮编',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of role
--- ----------------------------
-INSERT INTO `role` VALUES ('1', '超级用户', '2018-03-05 23:00:43', '-1', '拥有系统所有权限,不能删除', '-1', '2018-03-05 09:00:44');
-
--- ----------------------------
--- Table structure for role_menu
--- ----------------------------
-DROP TABLE IF EXISTS `role_menu`;
-CREATE TABLE `role_menu` (
-  `roleid` int(11) NOT NULL COMMENT '角色id',
-  `menuid` int(11) NOT NULL COMMENT '菜单id',
-  `flag` int(1) NOT NULL DEFAULT '1' COMMENT '1为有权限，0为没有权限（防止以后会出现角色有权限但是个人没有权限的情况）',
-  `creator` int(11) NOT NULL COMMENT '创建人，0为初始化',
-  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`menuid`,`roleid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of role_menu
--- ----------------------------
-
--- ----------------------------
--- Table structure for user_role
--- ----------------------------
-DROP TABLE IF EXISTS `user_role`;
-CREATE TABLE `user_role` (
-  `userid` int(11) NOT NULL COMMENT '用户id',
-  `roleid` int(11) NOT NULL COMMENT '角色id',
-  `creator` int(11) NOT NULL COMMENT '创建人，0为初始化',
-  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`userid`,`roleid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of user_role
--- ----------------------------
-INSERT INTO `user_role` VALUES ('-1', '1', '-1', '2018-03-05 23:37:04');
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
