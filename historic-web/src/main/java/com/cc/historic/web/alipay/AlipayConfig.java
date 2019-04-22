@@ -1,4 +1,4 @@
-﻿package com.cc.historic.web.alipay;
+package com.cc.historic.web.alipay;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +12,6 @@ import java.io.IOException;
  *以下代码只是为了方便商户测试而提供的样例代码，商户可以根据自己网站的需要，按照技术文档编写,并非一定要使用该代码。
  *该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
  */
-
 public class AlipayConfig {
 	
     //↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
@@ -27,10 +26,10 @@ public class AlipayConfig {
     public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAynJYvLLXrtYh0L7iMqliPyiQdhH3+p4+yHbLldQFvGw8NGqTKQ9hs6SfWC2uS4UICJExMHZVI+ROVzoos+sD5TUGSDPxk7gcpc5W9pZ1yjITG0+T6tuI9EHCjJqFLjlfx75aMOp7yhOJYy7km1BQUOI/x+wsKB/nfAbu+sqncqeCWOoDbNvLSSvc4Z/Y89k7tAu1uX7+PZh7IGba3dvBwuJ3C9+WJoM3c6vxaXTniwoR6jBdTMhGr5CpKGcnqditehAnFbzFhpjI1pApfF9YcjnHChYCYxNxYg62MFmVY2gVqySLLd+DoKjUfilo2UQtHnOLwKSHngNDL6gFbh1mCwIDAQAB";
 
 	// 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String notify_url = "http://工程公网访问地址/alipay.trade.page.pay-JAVA-UTF-8/notify_url.jsp";
+	public static String notify_url = "http://localhost:9000/goods/alipayNotifyNotice";
 
 	// 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String return_url = "http://工程公网访问地址/alipay.trade.page.pay-JAVA-UTF-8/return_url.jsp";
+	public static String return_url = "http://localhost:9000/goods/alipayReturnNotice";
 
 	// 签名方式
 	public static String sign_type = "RSA2";
@@ -39,7 +38,7 @@ public class AlipayConfig {
 	public static String charset = "utf-8";
 	
 	// 支付宝网关
-	public static String gatewayUrl = "https://openapi.alipay.com/gateway.do";
+	public static String gatewayUrl = "https://openapi.alipaydev.com/gateway.do";
 	
 	// 支付宝网关
 	public static String log_path = "C:\\";
