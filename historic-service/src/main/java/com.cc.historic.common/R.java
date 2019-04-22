@@ -20,22 +20,15 @@ public class R<T> implements Serializable {
     /**
      * 返回消息
      */
-    private String msg;
-
-
-    private R(boolean success, T data, String msg) {
-        this.data = data;
-        this.success = success;
-        this.msg = msg;
-    }
+    private String message;
 
     private R(boolean success, T data) {
         this.data = data;
         this.success = success;
     }
 
-    private R(boolean success, String msg) {
-        this.msg = msg;
+    private R(boolean success, String message) {
+        this.message = message;
         this.success = success;
     }
 
@@ -72,11 +65,11 @@ public class R<T> implements Serializable {
         this.data = data;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
