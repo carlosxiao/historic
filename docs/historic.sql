@@ -694,3 +694,137 @@ CREATE TABLE `shipping` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+
+-- 计算传入字符串的总length
+DELIMITER $$
+
+DROP function IF EXISTS `func_split_TotalLength` $$
+
+CREATE FUNCTION `func_split_TotalLength`
+
+(f_string varchar(1000),f_delimiter varchar(5)) RETURNS int(11)
+
+BEGIN
+
+    return 1+(length(f_string) - length(replace(f_string,f_delimiter,'')));
+
+END$$
+
+DELIMITER;
+-- 拆分传入的字符串，返回拆分后的新字符串
+DELIMITER $$
+
+DROP function IF EXISTS `func_split` $$
+
+CREATE  FUNCTION `func_split`
+
+(f_string varchar(1000),f_delimiter varchar(5),f_order int) RETURNS varchar(255) CHARSET utf8
+
+BEGIN
+        declare result varchar(255) default '';
+
+        set result = reverse(substring_index(reverse(substring_index(f_string,f_delimiter,f_order)),f_delimiter,1));
+
+        return result;
+
+END$$
+
+DELIMITER;
+-- 更新角色权限的存储过程
+delimiter $$
+DROP PROCEDURE IF EXISTS `role_menu_update` ;
+
+CREATE PROCEDURE `role_menu_update`
+
+(IN menuids varchar(3000),IN i_roleid INT,IN userid INT)
+
+BEGIN
+
+-- 拆分结果
+
+DECLARE cnt INT DEFAULT 0;
+
+DECLARE i INT DEFAULT 0;
+
+SET cnt = func_split_TotalLength(menuids,',');
+DELETE FROM role_menu WHERE roleid = i_roleid;
+
+WHILE i < cnt
+
+DO
+
+    SET i = i + 1;
+
+    INSERT INTO role_menu(roleid,menuid,creator) VALUES (i_roleid,func_split(menuids,',',i),userid);
+
+END WHILE;
+
+END $$
+
+-- 更新用户角色信息
+delimiter $$
+DROP PROCEDURE IF EXISTS `user_role_update` ;
+
+CREATE PROCEDURE `user_role_update`
+
+(IN roleids varchar(3000),IN i_userid INT,IN i_creator INT)
+
+BEGIN
+
+-- 拆分结果
+
+DECLARE cnt INT DEFAULT 0;
+
+DECLARE i INT DEFAULT 0;
+
+SET cnt = func_split_TotalLength(roleids,',');
+DELETE FROM user_role WHERE userid = i_userid;
+
+WHILE i < cnt
+
+DO
+
+    SET i = i + 1;
+
+    INSERT INTO user_role(userid,roleid,creator) VALUES (i_userid,func_split(roleids,',',i),i_creator);
+
+END WHILE;
+
+END $$
+
+-- 删除菜单的存储过程
+DROP PROCEDURE IF EXISTS `delete_menu`;
+CREATE  PROCEDURE `delete_menu`(IN `menuid` int)
+BEGIN
+
+	DECLARE rowNUM INT DEFAULT 0;
+	create temporary table if not exists menu_del_temp -- 不存在则创建临时表
+  (
+     id INT
+  );
+	create temporary table if not exists menu_del_temp2 -- 不存在则创建临时表
+  (
+     id INT
+  );
+create temporary table if not exists menu_del_temp3 -- 不存在则创建临时表
+  (
+     id INT
+  );
+	TRUNCATE TABLE menu_del_temp2;
+	TRUNCATE TABLE menu_del_temp; -- 清空临时表
+		INSERT INTO menu_del_temp SELECT id FROM  menu where parentid=menuid;
+	-- DELETE FROM category WHERE ID IN (SELECT id FROM category_del_temp);
+	INSERT INTO menu_del_temp2 SELECT id FROM  menu where parentid IN (SELECT id FROM menu_del_temp);
+	SELECT COUNT(id) INTO rowNUM FROM menu_del_temp2;
+	WHILE rowNUM > 0 DO
+		INSERT INTO menu_del_temp SELECT id FROM menu_del_temp2;
+		TRUNCATE TABLE menu_del_temp3;
+		INSERT INTO menu_del_temp3 SELECT id FROM menu_del_temp2;
+		TRUNCATE TABLE menu_del_temp2;
+		INSERT INTO menu_del_temp2 SELECT id FROM  menu where parentid IN (SELECT id FROM menu_del_temp3);
+		SELECT COUNT(id) INTO rowNUM FROM menu_del_temp2;
+	END WHILE;
+	INSERT INTO menu_del_temp(id) values(menuid);
+	DELETE FROM menu WHERE id IN (SELECT id FROM menu_del_temp);
+	DELETE FROM role_menu WHERE menuid IN (SELECT id FROM menu_del_temp);
+END;
