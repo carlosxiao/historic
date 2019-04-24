@@ -4,6 +4,7 @@ import com.cc.historic.admin.model.AdminUser;
 import com.cc.historic.admin.common.WebResult;
 import com.cc.historic.admin.service.AdminUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
